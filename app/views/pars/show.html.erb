@@ -1,6 +1,9 @@
 <h1><%= @par.name %></h1>
 
-<p>Latitude: <%= @par.latitude %></p>
-<p>Longitude: <%= @par.longitude %></p>
+<div style="width: 100%; height: 600px;"
+  data-controller="map"
+  data-map-markers-value="<%= @markers.to_json %>"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>">
+</div>
 
 <%= link_to "Back", pars_path %>

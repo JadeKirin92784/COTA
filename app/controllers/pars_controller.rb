@@ -1,4 +1,5 @@
 class ParsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
   def index
     @pars = Par.all
     @markers = @pars.geocoded.map do |par|
@@ -11,6 +12,10 @@ class ParsController < ApplicationController
 
   def show
     @par = Par.find(params[:id])
+    @markers = [{
+        lat: @par.latitude,
+        lng: @par.longitude
+      }]
   end
 
   def new
