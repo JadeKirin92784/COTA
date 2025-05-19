@@ -1,0 +1,34 @@
+class ParsController < ApplicationController
+  def index
+    @pars = Par.all
+    @markers = @flats.geocoded.map do |flat|
+      {
+        lat: flat.latitude,
+        lng: flat.longitude
+      }
+    end
+  end
+
+  def show
+    @par = Par.find(params[:id])
+  end
+
+  def new
+    @par = Par.new
+  end
+
+  def create
+    @par = Par.new(par_params)
+    if @par.save
+      redirect_to @par, notice: "Park and Ride location created successfully."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def par_params
+    params.require(:par).permit(:name, :latitude, :longitude)
+  end
+end

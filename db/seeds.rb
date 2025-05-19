@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-Stop.destroy_all
+Par.destroy_all
 
 #Seeds for Stops
 
@@ -13,7 +13,7 @@ doc = Nokogiri::XML(kml_file)
 ns = { 'kml' => 'http://www.opengis.net/kml/2.2' }
 
 # extract the names and coordinates from the text
-all_stops = doc.xpath('//kml:Placemark', ns).map do |placemark|
+all_pars = doc.xpath('//kml:Placemark', ns).map do |placemark|
   name = placemark.at_xpath('./kml:name', ns)&.text
   coord_text = placemark.at_xpath('.//kml:Point/kml:coordinates', ns)&.text
 
@@ -23,14 +23,14 @@ all_stops = doc.xpath('//kml:Placemark', ns).map do |placemark|
   end
 end.compact
 
-all_stops.each do |stop|
-  Stop.create!(
-    name: stop[:name],
-    latitude: stop[:latitude],
-    longitude: stop[:longitude]
+all_pars.each do |par|
+  Par.create!(
+    name: par[:name],
+    latitude: par[:latitude],
+    longitude: par[:longitude]
   )
 end
 
-all_stops.each do |stop|
-    puts "#{stop[:name]} => [#{stop[:latitude]}, #{stop[:longitude]}]"
+all_pars.each do |par|
+    puts "#{par[:name]} => [#{par[:latitude]}, #{par[:longitude]}]"
 end

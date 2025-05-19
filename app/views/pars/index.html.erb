@@ -1,0 +1,12 @@
+<h1>All Park and Ride Locations</h1>
+
+<ul>
+  <% @pars.each do |par| %>
+    <li>
+      <%= link_to par.name, par_path(par) %>  
+      (<%= par.latitude %>, <%= par.longitude %>)
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Add New Location", new_par_path %>
