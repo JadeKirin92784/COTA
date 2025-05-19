@@ -4,20 +4,33 @@ Stop.destroy_all
 
 #Seeds for Stops
 
-# worthington = Stop.create!(name: "worthington")
-# puts worthington.name
-
 kml_path = Rails.root.join('app', 'assets', 'data', 'cota_data')
 kml_file = File.read(kml_path)
 
 doc = Nokogiri::XML(kml_file)
 
+#add the namespace
 ns = { 'kml' => 'http://www.opengis.net/kml/2.2' }
 
-# Extract all <name> elements under <Placemark>
-stop_names = doc.xpath('//kml:Placemark/kml:name', ns).map(&:text)
+# extract the names and coordinates from the text
+all_stops = doc.xpath('//kml:Placemark', ns).map do |placemark|
+  name = placemark.at_xpath('./kml:name', ns)&.text
+  coord_text = placemark.at_xpath('.//kml:Point/kml:coordinates', ns)&.text
 
-# Output names to the console (optional)
-stop_names.each { |name| puts "Stop: #{name}" }
+  if name && coord_text
+    lon, lat, _alt = coord_text.strip.split(',')
+    { name: name, latitude: lat.to_f, longitude: lon.to_f }
+  end
+end.compact
 
-stop_names
+all_stops.each do |stop|
+  Stop.create!(
+    name: stop[:name],
+    latitude: stop[:latitude],
+    longitude: stop[:longitude]
+  )
+end
+
+all_stops.each do |stop|
+    puts "#{stop[:name]} => [#{stop[:latitude]}, #{stop[:longitude]}]"
+end
