@@ -1,10 +1,10 @@
 class ParsController < ApplicationController
   def index
     @pars = Par.all
-    @markers = @flats.geocoded.map do |flat|
+    @markers = @pars.geocoded.map do |par|
       {
-        lat: flat.latitude,
-        lng: flat.longitude
+        lat: par.latitude,
+        lng: par.longitude
       }
     end
   end
