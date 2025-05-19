@@ -73,3 +73,11 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "devise"
+gem 'cloudinary', '~> 1.16.0'
+gem 'ostruct'
+gem 'htmlbeautifier'
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
+gem "geocoder"
+gem "pg_search"
