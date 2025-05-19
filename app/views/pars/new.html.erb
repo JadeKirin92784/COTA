@@ -1,0 +1,24 @@
+<h1>New Park and Ride Location</h1>
+
+<%= form_with model: @par, local: true do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+  
+  <div>
+    <%= form.label :latitude %><br>
+    <%= form.number_field :latitude, step: 0.000001 %>
+  </div>
+
+  <div>
+    <%= form.label :longitude %><br>
+    <%= form.number_field :longitude, step: 0.000001 %>
+  </div>
+
+  <div>
+    <%= form.submit "Create" %>
+  </div>
+<% end %>
+
+<%= link_to "Back", pars_path %>
